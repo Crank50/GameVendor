@@ -1,0 +1,17 @@
+The GameController uses Category a lot. To get Vendor working you will need the following things.
+
+-Vendor entity object
+-VendorDAO object
+-Vendor Controller
+-addVendor.jsp
+-viewAllVendors.jsp
+-viewVendor.jsp
+
+You will also need to make changes to the following.
+
+-GameDAO to find games by vendor
+-GameController to viewGamesByVendor
+-GameController to viewGame
+-GameController to getVendorIdsAndNames
+-viewGame.jsp to add the name of the vendor
+-index.jsp to add links to your new JSPs.

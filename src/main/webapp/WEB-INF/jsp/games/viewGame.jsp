@@ -32,11 +32,15 @@
 
     <tr>
         <td>Category Id:</td>
-        <td><c:out value="${game.categoryId}" /></td>
+        <td><c:out value="${category.categoryId}" /></td>
     </tr>
     <tr>
         <td>Vendor Id:</td>
-        <td><c:out value="${game.vendorId}" /></td>
+        <td><c:out value="${vendor.vendorId}" /></td>
+    </tr>
+    <tr>
+        <td>Vendor Name:</td>
+        <td><c:out value="${vendor.vendorTitle}" /></td>
     </tr>
 </table>
 <br><br>

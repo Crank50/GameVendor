@@ -27,6 +27,7 @@ public class Game {
     @NotNull
     private long vendorId;
 
+
     public long getGameId() {
         return gameId;
     }
@@ -71,7 +72,6 @@ public class Game {
         return vendorId;
     }
 
-    public void setVendorId(long vendorId) {
-        this.vendorId = vendorId;
-    }
+    public void setVendorId(long vendorId) {this.vendorId = vendorId;}
+
 }

@@ -22,51 +22,61 @@ public class GameController {
     @Autowired
     private CategoryDAO categoryDAO;
 
-    @RequestMapping(value="viewAllGames")
+    @Autowired
+    private VendorDAO vendorDAO;
+
+    @RequestMapping(value = "viewAllGames")
     public String viewAllGames(ModelMap model) {
-        model.addAttribute("games",gameDAO.findAll());
+        model.addAttribute("games", gameDAO.findAll());
         return "games/viewAllGames";
     }
 
-    @RequestMapping(value="viewGamesInCategory")
+    @RequestMapping(value = "viewGamesInCategory")
     public String viewGamesInCategory(Long categoryId, ModelMap model) {
-        model.addAttribute("games",gameDAO.findByCategoryId(categoryId));
+        model.addAttribute("games", gameDAO.findByCategoryId(categoryId));
         return "games/viewAllGames";
     }
 
-    @RequestMapping(value="viewGamesSearch")
+    @RequestMapping(value = "viewGamesInVendor")
+    public String viewGamesInVendor(Long vendorId, ModelMap model) {
+        model.addAttribute("vendors", vendorDAO.findByVendorId(vendorId));
+        return "games/viewAllGames";
+    }
+
+    @RequestMapping(value = "viewGamesSearch")
     public String viewGamesSearch(String searchStr, ModelMap model) {
-        model.addAttribute("games",gameDAO.findByNameStartsWith(searchStr));
+        model.addAttribute("games", gameDAO.findByNameStartsWith(searchStr));
         return "games/viewAllGames";
     }
 
-
-    @RequestMapping(value="findGame")
+    @RequestMapping(value = "findGame")
     public String findGame() {
         return "games/findGame";
     }
 
-    @RequestMapping(value="viewGame")
+    @RequestMapping(value = "viewGame")
     public String viewGame(Long gameId, ModelMap model) {
         Game game = gameDAO.findOne(gameId);
         Category category = categoryDAO.findOne(game.getCategoryId());
-        model.addAttribute("category",category);
-        model.addAttribute("game",game);
+        Vendor vendor = vendorDAO.findOne(game.getVendorId());
+        model.addAttribute("category", category);
+        model.addAttribute("game", game);
+        model.addAttribute("vendor", vendor);
         return "games/viewGame";
     }
 
-    @RequestMapping(value="addGame")
+    @RequestMapping(value = "addGame")
     public String addGame(ModelMap model) {
         Game game = new Game();
-        model.addAttribute("game",game);
+        model.addAttribute("game", game);
         model.addAttribute("categoryIdAndNameList", getCategoryIdsAndNames());
         model.addAttribute("vendorIdAndNameList", getVendorIdsAndNames());
         return "games/addGame";
     }
 
-    @RequestMapping(value="saveNewGame")
+    @RequestMapping(value = "saveNewGame")
     public String saveNewGame(Game game) {
-        if(game != null) {
+        if (game != null) {
             gameDAO.save(game);
         } else {
             System.out.println("ERROR: did NOT save new game, game was NULL!");
@@ -76,17 +86,19 @@ public class GameController {
 
     private Map<String, String> getCategoryIdsAndNames() {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
-        hashMap.put("-1","-- None --");
-        for(Category category : categoryDAO.findAll()) {
-            hashMap.put(category.getCategoryId()+"",category.getCategoryTitle());
+        hashMap.put("-1", "-- None --");
+        for (Category category : categoryDAO.findAll()) {
+            hashMap.put(category.getCategoryId() + "", category.getCategoryTitle());
         }
         return hashMap;
     }
 
     private Map<String, String> getVendorIdsAndNames() {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
-        hashMap.put("-1","-- None --");
-        // TODO: loop through vendors here...
+        hashMap.put("-1", "-- None --");
+        for (Vendor vendor : vendorDAO.findAll()) {
+            hashMap.put(vendor.getVendorId() + "", vendor.getVendorTitle());
+        }
         return hashMap;
     }
 }

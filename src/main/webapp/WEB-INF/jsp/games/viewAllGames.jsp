@@ -15,6 +15,8 @@
         <th>Category ID</th>
         <th>Price</th>
         <th>Vendor ID</th>
+
+
     </tr>
     <c:forEach items="${games}" var="game">
         <tr>
